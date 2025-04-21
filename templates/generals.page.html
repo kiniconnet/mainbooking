@@ -1,5 +1,9 @@
 {{template "base" .}}
 
+{{define "css"}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+{{end}}
+
 {{define "content"}}
 
 <div class="container my-4">
@@ -35,58 +39,6 @@
 
 
 {{define "js"}}
-<script>
-    document.getElementById("check-availability-button").addEventListener("click", function () {
-        let html = `
-        <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
-            <div class="form-row">
-                <div class="col">
-                    <div class="form-row" id="reservation-dates-modal">
-                        <div class="col">
-                            <input disabled required class="form-control" type="text" name="start" id="start" placeholder="Arrival">
-                        </div>
-                        <div class="col">
-                            <input disabled required class="form-control" type="text" name="end" id="end" placeholder="Departure">
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </form>
-        `;
-        attention.custom({
-            title: 'Choose your dates',
-            msg: html,
-            willOpen: () => {
-                const elem = document.getElementById("reservation-dates-modal");
-                const rp = new DateRangePicker(elem, {
-                    format: 'yyyy-mm-dd',
-                    showOnFocus: true,
-                })
-            },
-            didOpen: () => {
-                document.getElementById("start").removeAttribute("disabled");
-                document.getElementById("end").removeAttribute("disabled");
-            },
-            callback: function(result) {
-                console.log("called");
-
-                let form = document.getElementById("check-availability-form");
-                let formData = new FormData(form);
-                formData.append("csrf_token", "{{.CSRFToken}}");
-
-                fetch('/search-availability-json', {
-                    method: "post",
-                    body: formData,
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                        console.log(data.ok);
-                        console.log(data.message);
-                    })
-            }
-        });
-    })
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="/static/js/generals.js"></script>
 {{end}}
