@@ -1,0 +1,47 @@
+
+/* Custom Bootstrap Theme Overrides */
+:root {
+    --bs-primary: #03624c; /* Primary color */
+    --bs-secondary: #042222; /* Secondary color */
+    --bs-success: #2cc395; /* Success color */
+    --bs-info: #00df82; /* Info color */
+    --bs-light: #f8fbff; /* Light background */
+    --bs-warning: #ffe4d0; /* Warning color */
+    --image-width: 100%; /* Image width */
+    --image-height: 100%; /* Image height */
+}
+
+
+.btn-amenities {
+    color: var(--bs-secondary); /* Bootstrap's secondary color */
+    border-color: var(--bs-secondary);
+    transition: all 0.3s ease;
+  }
+  
+  .btn-amenities:hover {
+    color: var(--bs-primary); /* Bootstrap's primary color */
+    border-color: var(--bs-primary); /* Updated to use CSS variable */
+  }
+
+  .room-view{
+    background-color: var(--bs-light); /* Light background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    background-color: var(--bs-success);
+    outline: none;
+  }
+
+  .room-view:hover {
+    transform: scale(1.05);
+    color: var(--bs-primary); /* Bootstrap's primary color */
+  }
+
+  .cta-content{
+    background-color: var(--bs-light); /* Light background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    background-color: var(--bs-success);
+    outline: none;
+    padding: 20px 0;
+    border-radius: 2rem;
+  }
