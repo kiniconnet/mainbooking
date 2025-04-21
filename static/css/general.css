@@ -1,0 +1,5 @@
+ 
+
+ .datepicker {
+    z-index: 1060 !important; /* Higher than Bootstrap modals (usually 1050) */
+  }

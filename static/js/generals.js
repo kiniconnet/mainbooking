@@ -1,115 +1,97 @@
+ 
 document.getElementById("check-availability-button").addEventListener("click", function () {
     let html = `
-    <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
-        <div class="container-fluid">
-            <div class="row g-3">
-                <div class="col-12 col-md-6">
-                    <label for="start" class="form-label">Arrival</label>
-                    <input required class="form-control date-picker" type="text" name="start" id="start" placeholder="Select date" autocomplete="off">
-                </div>
-                <div class="col-12 col-md-6">
-                    <label for="end" class="form-label">Departure</label>
-                    <input required class="form-control date-picker" type="text" name="end" id="end" placeholder="Select date" autocomplete="off">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5">
+                        <form id="check-availability-form" action="/search-availability" method="post" novalidate class="needs-validation">
+                            <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+                            
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input required class="form-control" type="text" name="start" id="start-date" placeholder="Arrival" autocomplete="off">
+                                        <label for="start-date" class="form-label">
+                                            <i class="fas fa-calendar-alt me-2"></i>Arrival Date
+                                        </label>
+                                        <div class="invalid-feedback">Please select an arrival date</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input required class="form-control" type="text" name="end" id="end-date" placeholder="Departure" autocomplete="off">
+                                        <label for="end-date" class="form-label">
+                                            <i class="fas fa-calendar-alt me-2"></i>Departure Date
+                                        </label>
+                                        <div class="invalid-feedback">Please select a departure date</div>
+                                    </div>
+                                </div>
+                            </div>
+                              <div class="text-center">
+                                <button type="submit" class="btn btn-secondary">Check Availability</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
     `;
-    
-    const modal = attention.custom({
+
+    attention.custom({
         title: 'Choose your dates',
         msg: html,
         willOpen: () => {
-            // Initialize date picker after modal is created but before it's shown
-            const startDateEl = document.getElementById('start');
-            const endDateEl = document.getElementById('end');
-            
-            // Clear any previous instances
-            if (startDateEl._datepicker) {
-                startDateEl._datepicker.destroy();
-            }
-            if (endDateEl._datepicker) {
-                endDateEl._datepicker.destroy();
-            }
+                       // Initialize date pickers with improved configuration
+                       const startDatePicker = new Datepicker(document.getElementById('start-date'), {
+                        format: "yyyy-mm-dd",
+                        minDate: new Date(),
+                        autohide: true,
+                        orientation: "bottom", // Keep default orientation
+                        todayHighlight: true,
+                        clearBtn: true,
+                        container: 'body', // Append to body to avoid overflow issues
+                        beforeShowDay: date => ({ enabled: date >= new Date() })
+                    });
+        
+                    const endDatePicker = new Datepicker(document.getElementById('end-date'), {
+                        format: "yyyy-mm-dd",
+                        minDate: new Date(),
+                        autohide: true,
+                        orientation: "bottom",
+                        todayHighlight: true,
+                        clearBtn: true,
+                        container: 'body', // Ensure proper positioning
+                        beforeShowDay: date => ({ enabled: date >= new Date() })
+                    });
 
-            // Initialize date range picker
-            const datepicker = new DateRangePicker(startDateEl, {
-                format: 'yyyy-mm-dd',
-                autohide: true,
-                minDate: new Date(),
-                orientation: 'auto',
+            // Add form submission handler
+            document.getElementById('check-availability-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                attention.close();
+                
+                const formData = new FormData(this);
+                
+                fetch('/search-availability-json', {
+                    method: "POST",
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    // Handle response here
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
             });
-            
-            // Store reference for cleanup
-            startDateEl._datepicker = datepicker;
         },
         didOpen: () => {
-            // Focus on arrival date for better UX
-            document.getElementById("start").focus();
-        },
-        callback: function(result) {
-            if (!result) return;
-            
-            const form = document.getElementById("check-availability-form");
-            const formData = new FormData(form);
-            formData.append("csrf_token", "{{.CSRFToken}}");
-            
-            // Show loading state
-            const submitBtn = document.querySelector('.attention-btn.confirm');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Checking...';
-
-            fetch('/search-availability-json', {
-                method: "POST",
-                body: formData,
-                headers: {
-                    'Accept': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(handleResponse)
-            .then(handleSuccess)
-            .catch(handleError)
-            .finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Check Availability';
-            });
+            // Remove disabled attributes if needed
+            document.getElementById("start-date")?.removeAttribute("disabled");
+            document.getElementById("end-date")?.removeAttribute("disabled");
         }
     });
-
-    function handleResponse(response) {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    }
-
-    function handleSuccess(data) {
-        if (data.ok) {
-            attention.success({
-                title: "Available!",
-                msg: data.message,
-                showConfirmButton: true,
-                confirmButtonText: "Book Now",
-                callback: function() {
-                    window.location.href = `/book-room?id=${data.room_id}&s=${data.start_date}&e=${data.end_date}`;
-                }
-            });
-        } else {
-            attention.error({
-                title: "Not Available",
-                msg: data.message,
-                showConfirmButton: true
-            });
-        }
-    }
-
-    function handleError(error) {
-        console.error('Error:', error);
-        attention.error({
-            title: "Error",
-            msg: "There was an error checking availability. Please try again.",
-            showConfirmButton: true
-        });
-    }
 });
