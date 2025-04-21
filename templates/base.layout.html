@@ -1,0 +1,431 @@
+{{define "base"}}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Fort Smythe Bed and Breakfast | Oceanfront Luxury</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Additional CSS Libraries -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.2/dist/css/datepicker-bs5.min.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+
+    {{block "css" .}}
+
+    {{end}}
+
+    <style>
+        /* Navbar styles */
+        .navbar {
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+        }
+        
+        .navbar.scrolled {
+            background-color: rgba(33, 37, 41, 0.98) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: #0dcaf0;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 70%;
+        }
+        
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .dropdown-item:hover {
+            background-color: rgba(13, 202, 240, 0.1);
+        }
+        
+        /* Mobile menu adjustments */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                padding: 1rem;
+                background-color: rgba(33, 37, 41, 0.98);
+                margin-top: 0.5rem;
+                border-radius: 0.25rem;
+            }
+            
+            .nav-link::after {
+                display: none;
+            }
+            
+            .btn-outline-light {
+                margin-top: 0.5rem;
+                display: inline-block !important;
+            }
+        }
+        
+        /* Spacer for fixed navbar */
+        .navbar-spacer {
+            height: 72px;
+        }
+        
+        /* Footer styles */
+        footer {
+            background-color: #212529;
+            color: white;
+            padding: 3rem 0;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.25rem;
+            margin-right: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: #0dcaf0;
+            text-decoration: none;
+        }
+        
+        /* Custom button styles */
+        .btn-outline-secondary {
+            color: #0dcaf0;
+            border-color: #6c757d;
+        }
+        
+        .btn-outline-secondary:hover {
+            background-color: #0dcaf0;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Modern Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+        <div class="container">
+            <!-- Brand with logo -->
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <span class="fw-bold">Fort Smythe</span>
+                <span class="text-light fw-light ms-2 d-none d-sm-inline">Bed & Breakfast</span>
+            </a>
+
+            <!-- Mobile toggle button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" 
+                    aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar content -->
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <!-- Home -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home d-lg-none me-2"></i>Home
+                        </a>
+                    </li>
+
+                    <!-- About -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">
+                            <i class="fas fa-info-circle d-lg-none me-2"></i>About
+                        </a>
+                    </li>
+
+                    <!-- Rooms dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="roomsDropdown" 
+                           role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-bed d-lg-none me-2"></i>Rooms
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="roomsDropdown">
+                            <li><h6 class="dropdown-header text-uppercase small">Our Accommodations</h6></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="/generals-quarters">
+                                <i class="fas fa-star me-2 text-warning"></i>General's Quarters</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="/majors-suite">
+                                <i class="fas fa-crown me-2 text-warning"></i>Major's Suite</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="/rooms">
+                                <i class="fas fa-images me-2"></i>View All Rooms</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Book Now -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/search-availability">
+                            <i class="fas fa-calendar-check d-lg-none me-2"></i>Book Now
+                        </a>
+                    </li>
+
+                    <!-- Contact -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">
+                            <i class="fas fa-envelope d-lg-none me-2"></i>Contact
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Additional buttons -->
+                <div class="d-flex ms-lg-3">
+                    <a href="/search-availability" class="btn btn-outline-light btn-sm me-2 d-none d-lg-inline-block">
+                        <i class="fas fa-search me-1"></i> Check Availability
+                    </a>
+                    <a href="tel:+18005551234" class="btn btn-primary btn-sm">
+                        <i class="fas fa-phone me-1"></i> Call Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Spacer to account for fixed navbar -->
+    <div class="navbar-spacer"></div>
+
+    {{block "content" .}}{{end}}
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h3>Fort Smythe B&B</h3>
+                    <p>123 Oceanview Drive<br>
+                        Fort Smythe, CA 90210<br>
+                        United States</p>
+                    <p>Phone: (800) 555-1234<br>
+                        Email: stay@fortsmythe.com</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h3>Quick Links</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="/" class="text-white">Home</a></li>
+                        <li><a href="/rooms" class="text-white">Rooms & Suites</a></li>
+                        <li><a href="/amenities" class="text-white">Amenities</a></li>
+                        <li><a href="/dining" class="text-white">Dining</a></li>
+                        <li><a href="/contact" class="text-white">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>Connect With Us</h3>
+                    <div class="social-icons mb-3">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                    <p>Subscribe to our newsletter for special offers</p>
+                    <form class="d-flex">
+                        <input type="email" class="form-control me-2" placeholder="Your email">
+                        <button type="submit" class="btn btn-outline-light">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2023 Fort Smythe Bed and Breakfast. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="/privacy" class="text-white me-3">Privacy Policy</a>
+                    <a href="/terms" class="text-white">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Libraries -->
+    <!-- Bootstrap 5 Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jQuery (for plugins that require it) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Additional JS Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.2/dist/js/datepicker-full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.2/dist/js/datepicker-full.min.js"></script>
+    <script src="https://unpkg.com/notie"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.js"></script>
+
+    {{block "js" .}}
+    
+    {{end}}
+    <script>
+        let attention = Prompt();
+
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                let forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+
+        function notify(msg, msgType) {
+            notie.alert({
+                type: msgType,
+                text: msg,
+            })
+        }
+
+        function notifyModal(title, text, icon, confirmationButtonText) {
+            Swal.fire({
+                title: title,
+                html: text,
+                icon: icon,
+                confirmButtonText: confirmationButtonText
+            })
+        }
+
+        function Prompt() {
+            let toast = function (c) {
+                const{
+                    msg = '',
+                    icon = 'success',
+                    position = 'top-end',
+
+                } = c;
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    title: msg,
+                    position: position,
+                    icon: icon,
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+
+                Toast.fire({})
+            }
+
+            let success = function (c) {
+                const {
+                    msg = "",
+                    title = "",
+                    footer = "",
+                } = c
+
+                Swal.fire({
+                    icon: 'success',
+                    title: title,
+                    text: msg,
+                    footer: footer,
+                })
+
+            }
+
+            let error = function (c) {
+                const {
+                    msg = "",
+                    title = "",
+                    footer = "",
+                } = c
+
+                Swal.fire({
+                    icon: 'error',
+                    title: title,
+                    text: msg,
+                    footer: footer,
+                })
+
+            }
+
+            async function custom(c) {
+                const {
+                    msg = "",
+                    title = "",
+                } = c;
+
+                const { value: result } = await Swal.fire({
+                    title: title,
+                    html: msg,
+                    backdrop: false,
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    willOpen: () => {
+                        if (c.willOpen !== undefined) {
+                            c.willOpen();
+                        }
+                    },
+                    didOpen: () => {
+                        if (c.didOpen !== undefined){
+                            c.didOpen();
+                        }
+                    },
+                    preConfirm: () => {
+                        return [
+                            document.getElementById('start').value,
+                            document.getElementById('end').value
+                        ]
+                    }
+                })
+
+                if (result) {
+                    if (result.dismiss !== Swal.DismissReason.cancel) {
+                        if (result.value !== "") {
+                            if (c.callback !== undefined) {
+                                c.callback(result);
+                            }
+                        } else {
+                            c.callback(false);
+                        }
+                    } else {
+                        c.callback(false);
+                    }
+                }
+            }
+
+            return {
+                toast: toast,
+                success: success,
+                error: error,
+                custom: custom,
+            }
+        }
+
+    </script> 
+</body>
+</html>
+{{end}}
