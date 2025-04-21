@@ -1,15 +1,116 @@
-.my-footer {
-    height: 5em;
-    background-color: #163b65;
-    margin-top: 1.5em;
-    padding: 1em;
-    color: white;
-    font-size: 80%;
+/* Custom Bootstrap Theme Overrides */
+:root {
+    --bs-primary: #03624c; /* Primary color */
+    --bs-secondary: #042222; /* Secondary color */
+    --bs-success: #2cc395; /* Success color */
+    --bs-info: #00df82; /* Info color */
+    --bs-light: #f8fbff; /* Light background */
+    --bs-warning: #ffe4d0; /* Warning color */
 }
 
-.room-image {
-    max-width: 50%;
+/* Navbar customizations */
+.navbar {
+    background-color: var(--bs-primary) !important;
 }
+.nav-link {
+    color: #f8fbff !important;
+}
+.nav-link:hover,
+.nav-link.active {
+    color: #00df82 !important;
+}
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23f8fbff' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+.btn-primary:hover {
+    background-color: #00df82;
+    border-color: #00df82;
+}
+.btn-outline-light {
+    color: #f8fbff;
+    border-color: #f8fbff;
+}
+.btn-outline-light:hover {
+    background-color: #f8fbff;
+    color: var(--bs-primary);
+}
+
+/* Footer */
+footer {
+    background-color: var(--bs-secondary);
+    color: #f8fbff;
+}
+.social-icons a {
+    color: #f8fbff;
+}
+.social-icons a:hover {
+    color: #00df82;
+}
+
+/* Room image */
+.room-image {
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.room-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+
+/* Smooth scroll animation */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Fade-in animation for sections */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Hover effect for buttons */
+.btn-hover-effect {
+    position: relative;
+    overflow: hidden;
+}
+.btn-hover-effect::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: left 0.3s ease;
+}
+.btn-hover-effect:hover::before {
+    left: 100%;
+}
+
+/* Card hover effect */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+
 
 .notie-container {
     box-shadow: none;
