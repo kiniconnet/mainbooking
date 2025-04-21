@@ -22,7 +22,6 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
-
     {{block "css" .}}
 
     {{end}}
@@ -76,14 +75,13 @@
                             <li><a class="dropdown-item d-flex align-items-center" href="/majors-suite">
                                 <i class="fas fa-crown me-2 text-warning"></i>Major's Suite</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="/rooms">
-                                <i class="fas fa-images me-2"></i>View All Rooms</a></li>
+                            
                         </ul>
                     </li>
 
                     <!-- Book Now -->
                     <li class="nav-item">
-                        <a class="nav-link" href="/search-availability">
+                        <a class="nav-link" href="/make-reservation">
                             <i class="fas fa-calendar-check d-lg-none me-2"></i>Book Now
                         </a>
                     </li>
@@ -112,7 +110,9 @@
     <!-- Spacer to account for fixed navbar -->
     <div class="navbar-spacer"></div>
 
-    {{block "content" .}}{{end}}
+    {{block "content" .}}
+     
+    {{end}}
 
     <!-- Footer -->
     <footer>
@@ -178,7 +178,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.js"></script>
 
     {{block "js" .}}
-    
     {{end}}
     <script>
         let attention = Prompt();
