@@ -10,6 +10,9 @@
     --image-height: 100%; /* Image height */
 }
 
+ 
+
+ 
 /* Navbar customizations */
 .navbar {
     background-color: var(--bs-primary) !important;
@@ -77,7 +80,8 @@
 
 .testimonial-card {
     padding: 30px;
-    background: white;
+    background: var(--bs-secondary);
+    color: var(--bs-light);
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     height: 100%;
